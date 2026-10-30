@@ -36,9 +36,23 @@ const otherAccounts = (rows) => (rows || []).filter((a) => a.id !== state.user.i
 
 /** Muat ulang ISI daftar admin saja (dipakai polling dan setelah serah/cabut title). */
 async function refreshAdminList(my) {
-  const { data } = await listJastipProfiles();
+  let result;
+  try {
+    result = await listJastipProfiles();
+  } catch (error) {
+    result = { data: null, error };
+  }
   if (my !== state.rid) return;
-  app.innerHTML = page(cojastipPanelHTML(otherAccounts(data)));
+  if (result?.error) {
+    app.innerHTML = page(
+      '<section class="profile-card cojastip-panel">' +
+      '<h2 class="form-title">' + t('al.title') + '</h2>' +
+      '<p class="form-note">Daftar admin gagal dimuat dari database. Periksa fungsi list_jastip_profiles di Supabase, lalu muat ulang halaman.</p>' +
+      '<p class="form-note">' + esc(result.error.message || 'Kesalahan database') + '</p></section>'
+    );
+    return;
+  }
+  app.innerHTML = page(cojastipPanelHTML(otherAccounts(Array.isArray(result?.data) ? result.data : [])));
 }
 
 /** Tab List admin jastip. Developer: daftar + tombol serah/cabut. Lainnya: keterangan saja. */

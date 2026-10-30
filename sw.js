@@ -5,12 +5,13 @@
  */
 
 /* Naikkan angka versi ini setiap kali ada berkas web yang berubah; cache lama dihapus otomatis saat aktif. */
-const CACHE_NAME = 'titip-gacoan-v3';
+const CACHE_NAME = 'titip-gacoan-v5';
 const STATIC_ASSETS = [
   './',
   'index.html',
   'manifest.json',
   'favicon.ico',
+  'README.txt',
   'css/base/reset.css',
   'css/base/typography.css',
   'css/base/variables.css',

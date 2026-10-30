@@ -86,3 +86,42 @@ button, .btn, .sw, .bell, .opt, .lv {
   .lv span:hover{border-color:var(--pk)}
   .srow:hover b{text-decoration:underline}
 }
+
+
+/* --- Halaman administrasi: pertahankan komposisi seperti potret pada layar lanskap --- */
+@media (orientation: landscape) and (min-width: 800px) {
+  :root { --wrap: 680px; }
+
+  /* Header dan isi tab mengikuti lebar baca yang nyaman, bukan melebar memenuhi monitor. */
+  header .wrap,
+  body:not(.cust-mode) header .wrap {
+    max-width: 680px;
+    width: calc(100% - 32px);
+  }
+
+  main {
+    max-width: 680px;
+    width: calc(100% - 32px);
+  }
+
+  .tab-page {
+    width: 100%;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .tab-card,
+  .cojastip-panel {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .cojastip-row {
+    align-items: flex-start;
+  }
+
+  .request-row {
+    align-items: flex-start;
+  }
+}

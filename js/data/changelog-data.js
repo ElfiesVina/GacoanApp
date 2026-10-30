@@ -12,6 +12,25 @@
  *   poin  : daftar kalimat pendek, bahasa orang awam
  */
 export const CHANGELOG = [
+  { id: 25, tgl: '2026-10-31', v: '3.0', jenis: 'Optimasi', untuk: 'semua',
+    judul: 'Optimasi Sistem Link Sesi dan Cache Aplikasi',
+    poin: [
+      'Penyesuaian Layout antara lanskap dengan potrait.',
+      'Akan muncul Admin Jastip baru di list admin DEV atau CO.',
+      'Mengembalikan fungsi caching dan sesi lebih baik.'] },
+   
+  { id: 24, tgl: '2026-10-30', v: '2.9', jenis: 'RE-Build', untuk: 'semua',
+    judul: 'Rungkad. Dev kebingungan dengan database yang belum stabil',
+    poin: [
+      'Re-build Database. Sebagian fitur belum stabil.'] },   
+
+  { id: 23, tgl: '2026-10-30', v: '2.8', jenis: 'Perbaikan', untuk: 'admin',
+    judul: 'Tampilan halaman admin lebih nyaman di layar lebar',
+    poin: [
+      'Halaman Persetujuan dan List Admin kini memakai lebar konten yang lebih terarah pada layar lanskap.',
+      'Daftar akun yang sudah disetujui dapat ditampilkan meskipun profilnya belum dibuat, setelah pembaruan fungsi database diterapkan.',
+      'Cache aplikasi diperbarui agar versi web terbaru lebih mudah diterima perangkat.'] },
+
   { id: 22, tgl: '2026-10-29', v: '2.7', jenis: 'Perbaikan', untuk: 'semua',
     judul: 'Aplikasi Android kini seperti aplikasi sungguhan',
     poin: [
