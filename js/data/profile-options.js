@@ -26,4 +26,4 @@ export const BANK_OPTIONS = ['BCA', 'BRI', 'BNI', 'Mandiri', 'BSI', 'CIMB Niaga'
 /** Jumlah baris media sosial di form. */
 export const SOCIAL_SLOTS = 3;
 export const MAX_QUOTE_LENGTH = 160;
-export const MAX_SEMESTER = 14;
+export const MAX_SEMESTER = 10;
