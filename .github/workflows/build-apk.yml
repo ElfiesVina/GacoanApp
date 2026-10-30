@@ -73,3 +73,10 @@ jobs:
           name: TitipGacoan-APK
           path: android/app/build/outputs/apk/release/TitipGacoan.apk
           retention-days: 30
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Titip Gacoan ${{ github.ref_name }}
+          generate_release_notes: true
+          files: android/app/build/outputs/apk/release/TitipGacoan.apk
