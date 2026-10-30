@@ -144,7 +144,7 @@ const newPasswordBody = () =>
  * @param {{last?:{k:string,j?:string}}} ctx last = sesi yang terakhir dibuka di perangkat ini
  */
 /** Slot di atas kolom isian: link sesi terbaru sebagai TEKS (tidak bisa disalin dengan menekannya) + ikon salin. */
-const recentHTML = (list) => !list || !list.length ? '' :
+export const recentHTML = (list) => !list || !list.length ? '' :
   '<div class="auth-recent"><div class="auth-rt">Sesi terbaru</div>' +
   list.map((x) =>
     '<div class="rc-row"><div class="rc-tx"><b>' + esc(x.j || x.k) + '</b><span>' + esc(location.host + location.pathname.replace(/index\.html$/, '') + '#/s/' + x.k) + '</span></div>' +
@@ -155,7 +155,7 @@ const joinBody = (ctx) =>
   '<form class="auth-form" data-form="join" novalidate>' +
   '<h2 class="auth-title">Mau titip pesanan?</h2>' +
   '<p class="auth-hint">Tempel link di bawah ini untuk mengakses beranda</p>' +
-  recentHTML(ctx.recent) +
+  '<div id="rc-slot">' + recentHTML(ctx.recent) + '</div>' +
   field('link', 'id="kd" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="go" placeholder="Link atau kode sesi"') +
   '<button class="auth-btn" type="submit">Buka daftar titipan</button>' +
   '</form>';
