@@ -58,37 +58,42 @@ let pane = 'jastiper';
 try { if (sessionStorage.getItem('pane') === 'jastip') pane = 'jastip'; } catch (_) {} // refresh tetap di halaman yang sama
 
 /**
- * Isi "Sesi terbaru" di halaman Jastiper dari Supabase, jadi sama di semua perangkat.
- * Kalau gagal (misalnya offline), pakai daftar lokal yang lama.
+ * Isi "Sesi terbaru" dari Supabase.
+ * Jika permintaan terlalu lama atau gagal, gunakan riwayat lokal.
  */
 async function muatSesiAktif() {
   const slot = $('#rc-slot');
   if (!slot) return;
 
-  let daftar;
+  let daftar = getRecent();
 
   try {
-    const r = await listSesiAktif();
+    const hasil = await Promise.race([
+      listSesiAktif(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('RPC timeout')), 8000)
+      )
+    ]);
 
-    daftar = r.error || !Array.isArray(r.data)
-      ? getRecent()
-      : r.data
-          .filter((x) => /^\w+$/.test(x.kode || ''))
-          .map((x) => {
-            const judul = x.judul || x.kode;
-            return {
-              k: x.kode,
-              j: x.nama ? judul + ' · ' + x.nama : judul
-            };
-          });
+    if (!hasil.error && Array.isArray(hasil.data)) {
+      daftar = hasil.data
+        .filter((x) => /^\w+$/.test(x.kode || ''))
+        .map((x) => ({
+          k: x.kode,
+          j: x.nama
+            ? (x.judul || x.kode) + ' · ' + x.nama
+            : (x.judul || x.kode)
+        }));
+    }
   } catch (err) {
-    daftar = getRecent();
+    console.warn('Gagal memuat sesi aktif:', err);
   }
 
-  // Jangan mengubah layar jika pengguna sudah berpindah.
-  if (!$('#rc-slot')) return;
-
-  slot.innerHTML = recentHTML(daftar);
+  // Pastikan slot masih ada setelah permintaan selesai.
+  const slotTerbaru = $('#rc-slot');
+  if (slotTerbaru) {
+    slotTerbaru.innerHTML = recentHTML(daftar);
+  }
 }
 
 /**
