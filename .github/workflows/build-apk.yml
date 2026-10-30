@@ -30,17 +30,32 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x android/gradlew
 
-    - name: Build Debug APK
+        - name: Siapkan kunci rilis
+      env:
+        KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+      run: echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
+
+    - name: Build Release APK
+      env:
+        KEYSTORE_PATH: ${{ runner.temp }}/release.jks
+        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
       run: |
         cd android
-        ./gradlew assembleDebug --stacktrace
+        ./gradlew assembleRelease --stacktrace
 
     - name: Rename APK
-      run: mv android/app/build/outputs/apk/debug/app-debug.apk android/app/build/outputs/apk/debug/TitipGacoan.apk
+      run: mv android/app/build/outputs/apk/release/app-release.apk android/app/build/outputs/apk/release/TitipGacoan.apk
+
+    - name: Cek tanda tangan
+      run: |
+        APKSIGNER=$(ls -d $ANDROID_HOME/build-tools/* | sort -V | tail -1)/apksigner
+        $APKSIGNER verify --print-certs android/app/build/outputs/apk/release/TitipGacoan.apk
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
       with:
         name: TitipGacoan-APK
-        path: android/app/build/outputs/apk/debug/TitipGacoan.apk
+        path: android/app/build/outputs/apk/release/TitipGacoan.apk
         retention-days: 30
