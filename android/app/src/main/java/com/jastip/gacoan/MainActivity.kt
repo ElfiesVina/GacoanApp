@@ -32,8 +32,8 @@ import java.io.IOException
 
 // Alamat aplikasi web (Vercel). Semua tampilan dan fitur datang dari sini,
 // jadi perubahan web langsung terlihat di APK tanpa perlu membangun ulang APK.
-private const val BASE_URL = "https://titipgacoan.vercel.app/"
-private const val BASE_HOST = "titipgacoan.vercel.app"
+private const val BASE_URL = "https://gacoanapp.vercel.app/"
+private const val BASE_HOST = "gacoanapp.vercel.app"
 
 /** Batas waktu terlama splash screen ditahan bila halaman lambat dimuat (milidetik). */
 private const val SPLASH_MAX_MS = 4000L
@@ -266,6 +266,14 @@ class MainActivity : ComponentActivity() {
     private inner class Bridge {
         @JavascriptInterface
         fun saveFile(dataUrl: String, mime: String, name: String) {
+            if (!mime.startsWith("image/") ||
+                !dataUrl.startsWith("data:image/") ||
+                dataUrl.length > 14_000_000 ||
+                !name.matches(Regex("[A-Za-z0-9_-][A-Za-z0-9._-]{0,79}"))
+            ) {
+                runOnUiThread { toast("File ditolak") }
+                return
+            }
             val where = try {
                 writeFile(dataUrl, mime, name)
             } catch (_: Exception) {
