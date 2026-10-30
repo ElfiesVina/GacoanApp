@@ -5,7 +5,7 @@
  */
 
 /* Naikkan angka versi ini setiap kali ada berkas web yang berubah; cache lama dihapus otomatis saat aktif. */
-const CACHE_NAME = 'titip-gacoan-v3';
+const CACHE_NAME = 'titip-gacoan-v4';
 const STATIC_ASSETS = [
   './',
   'index.html',
