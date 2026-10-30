@@ -9,6 +9,12 @@ import { sb } from './client.js';
 /** [Publik] Ambil data sesi berdasarkan kode, sudah digabung profil jastip. */
 export const getPublicSesi = (k) => sb.rpc('get_sesi', { k });
 
+/** [Publik] Ambil data sesi berdasarkan kode, sudah digabung profil jastip. */
+export const getPublicSesi = (k) => sb.rpc('get_sesi', { k });
+
+/** [Publik] Daftar sesi yang masih dibuka (maks 10), untuk "Sesi terbaru" di halaman Jastiper. */
+export const listSesiAktif = () => sb.rpc('list_sesi_aktif');
+
 /** [Admin] Daftar sesi milik saya, terbaru dulu. */
 export const listMySesi = () =>
   sb.from('sesi').select('id,kode,judul,status,tgl').order('created_at', { ascending: false });

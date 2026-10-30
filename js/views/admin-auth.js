@@ -12,8 +12,9 @@ import { POLL_MS } from '../core/constants.js';
 import { getSession, signIn, signUp, signOut, sendResetEmail, updatePassword, verifyResetCode } from '../api/auth.api.js';
 import { OPENED_FROM_RECOVERY_LINK, RESET_LINK_EXPIRED } from '../api/client.js';
 import { getProfile, saveProfile } from '../api/profile.api.js';
+import { listSesiAktif } from '../api/sesi.api.js';
 import { renderHeader } from '../components/header.js';
-import { authScreenHTML } from '../components/auth-forms.js';
+import { authScreenHTML, recentHTML } from '../components/auth-forms.js';
 import { renderChangelogBadge } from '../services/changelog.js';
 import { markOnline, markOffline } from '../services/presence.js';
 import { showDashboard } from './admin-dashboard.js';
@@ -56,6 +57,24 @@ if (themeMeta) {
 let pane = 'jastiper';
 try { if (sessionStorage.getItem('pane') === 'jastip') pane = 'jastip'; } catch (_) {} // refresh tetap di halaman yang sama
 
+/**
+ * Isi "Sesi terbaru" di halaman Jastiper dari Supabase, jadi sama di semua perangkat.
+ * Kalau gagal (misalnya offline), pakai daftar lokal yang lama.
+ */
+async function muatSesiAktif() {
+  const r = await listSesiAktif();
+  const slot = $('#rc-slot');
+  if (!slot) return; // layar sudah berganti sebelum data datang
+  const daftar = r.error || !Array.isArray(r.data)
+    ? getRecent()
+    : r.data
+      .filter((x) => /^\w+$/.test(x.kode || ''))
+      .map((x) => {
+        const jd = x.judul || x.kode;
+        return { k: x.kode, j: x.nama ? jd + ' · ' + x.nama : jd };
+      });
+  slot.innerHTML = recentHTML(daftar);
+}
 
 /**
  * Tampilkan layar Masuk / Daftar / Lupa password / Password baru di halaman Jastip,
@@ -67,7 +86,8 @@ export function showAuth(mode, ctx = {}) {
   const email = ctx.email || $('#em')?.value || ''; // jangan hilangkan email yang sudah diketik saat pindah layar
   if (mode === 'newpass') pane = 'jastip';          // dari link/kode reset: langsung ke form password baru
   document.body.classList.add('auth-mode');
-  app.innerHTML = authScreenHTML(mode, { ...ctx, pane, recent: getRecent() });
+  app.innerHTML = authScreenHTML(mode, { ...ctx, pane, recent: [] });
+  muatSesiAktif();
   if (email && $('#em')) $('#em').value = email;
   initAuthScroll();
   initPullRefresh();
