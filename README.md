@@ -1,70 +1,45 @@
+<div align="center">
+
 # Titip Gacoan
 
-Aplikasi titip pesanan Gacoan. Statis (HTML + CSS + JS modul, tanpa build), data di Supabase, deploy di Vercel. APK hanya cangkang WebView.
+**Titip pesanan, kelola sesi, dan pantau pembayaran dalam satu tempat.**
 
-## Struktur
+[🌐 Buka Aplikasi](https://gacoanapp.vercel.app/) · [📦 Unduh APK](https://github.com/ElfiesVina/GacoanApp/releases/latest) · [🗂️ Semua Rilis](https://github.com/ElfiesVina/GacoanApp/releases)
 
-```
-index.html            kerangka halaman + daftar <link> CSS
-css/                  base, layout, components, responsive
-js/
-  main.js             titik masuk
-  config.js           URL Supabase, anon key, daftar menu
-  core/               state, router, ui, format, storage, i18n
-  api/                satu-satunya tempat bicara ke Supabase
-  services/           hitung rekap, gambar, presence, changelog
-  components/         pembuat HTML
-  views/              halaman penitip & admin
-  data/               changelog, i18n, opsi profil
-supabase/
-  schema.sql          SATU file skema final (jalankan sekali di SQL Editor)
-android/              cangkang WebView (MainActivity.kt saja)
-docs/                 arsitektur, audit, alur pendaftaran
-.github/workflows/    build APK otomatis
-```
+</div>
 
-## Database (Supabase)
+---
 
-1. Buka Supabase → SQL Editor → New query.
-2. Tempel **seluruh** isi `supabase/schema.sql`.
-3. Run sekali.
+## Unduh
 
-File ini sudah menggabungkan semua migrasi sampai 29 Okt 2026. Tidak perlu file migrasi lain.
+| Platform | Unduhan |
+| --- | --- |
+| Android | [**APK terbaru**](https://github.com/ElfiesVina/GacoanApp/releases/latest) |
+| Perangkat lain | [Buka versi web](https://gacoanapp.vercel.app/) — bisa dibuka melalui browser |
 
-**Perhatian:** bagian 0 (RESET) sudah **dinonaktifkan** (dibungkus komentar), jadi aman dijalankan di database kosong. Hanya buka komentarnya jika ingin mengulang dari nol: itu menghapus data `sesi`, `pesanan`, `profiles`, dan pendaftaran (akun di `auth.users` tidak dihapus).
+> Untuk Android, unduh APK dari halaman **Releases**. Jika belum ada rilis, buat rilis pertama dengan tag seperti `v1.1.0`; GitHub Actions akan membangun APK dan melampirkannya otomatis.
 
-Email developer di-hardcode di `is_developer()` dan seed `allowed_jastip`. Ganti keduanya jika email berubah.
+## Tentang
 
-## Menjalankan web
+Titip Gacoan adalah aplikasi web untuk titip pesanan Gacoan, dengan data tersimpan di Supabase. Versi Android menggunakan WebView untuk membuka aplikasi web.
 
-Modul ES butuh server HTTP (tidak jalan lewat `file://`).
+- **Web:** HTML, CSS, dan JavaScript modular
+- **Database & autentikasi:** Supabase
+- **Hosting:** Vercel
+- **APK Android:** GitHub Actions
 
-- Lokal: `npx serve .` atau Live Server
-- Produksi: deploy ke Vercel
+## Pembaruan aplikasi
 
-## Aplikasi Android (APK)
+Perubahan pada aplikasi web yang sudah dipublikasikan di Vercel biasanya langsung terlihat di APK karena APK memuat versi web tersebut. APK baru diperlukan jika ada perubahan pada cangkang Android, ikon, izin, atau konfigurasi aplikasi.
 
-Folder `android/` hanyalah cangkang WebView. Tampilan dan fitur SELALU sama dengan web.
+## Keamanan instalasi Android
 
-- Ubah web di Vercel → langsung terlihat di APK (tanpa rebuild)
-- Rebuild APK hanya bila mengubah kode di `android/`, icon, atau deep link
-- Alamat web: `BASE_URL` di `MainActivity.kt`
-- Build: GitHub Actions (`.github/workflows/build-apk.yml`)
-- Icon sumber: `icons/app-icon-source.jpg`
+Android atau Google Play Protect mungkin menampilkan peringatan pada APK yang diunduh di luar Play Store. Peringatan itu tidak bisa dihilangkan hanya dengan mengubah README atau nama APK. Gunakan APK yang ditandatangani dengan kunci rilis yang konsisten, bagikan melalui rilis resmi, dan pertimbangkan distribusi melalui Google Play jika ingin pengalaman instalasi yang lebih tepercaya. Jangan menonaktifkan perlindungan perangkat demi melewati peringatan.
 
-## Peran
+---
 
-| Peran | Cara dapat | Hak |
-|-------|------------|-----|
-| Developer | Email = yang di `is_developer()` | Semua + angkat Co Jastip + setujui pendaftar |
-| Co Jastip | Diangkat Developer (on/off) | Setujui / tolak pendaftar |
-| Jastip | Disetujui Dev/Co, atau email di `allowed_jastip` | Buat & kelola sesi |
-| Belum disetujui | Baru daftar | Login saja, tidak bisa buat sesi |
+<div align="center">
 
-## Dokumen lama
+Dibuat untuk mempermudah titip pesanan.
 
-`docs/AUDIT.md` dan `docs/DESAIN-ALUR-PENDAFTARAN.md` adalah catatan historis. Kondisi terkini database ada di `supabase/schema.sql`.
-
-## Menambah catatan perubahan
-
-Buka `js/data/changelog-data.js`, taruh entri baru di paling atas dengan `id` satu angka di atas yang terakhir.
+</div>
