@@ -8,13 +8,13 @@
  */
 export const CFG = {
   /** Alamat proyek Supabase. */
-  URL: 'https://bmhjbutnunmymrcldhmo.supabase.co',
+  URL: 'https://tjztwytlrfqnvgmqkpbi.supabase.co',
 
   /** Anon (public) key Supabase. */
-  KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJtaGpidXRudW5teW1yY2xkaG1vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2Njk0MDgsImV4cCI6MjEwODI0NTQwOH0.jw2cdtuxN6eM9IIyQ9RsM_vJsrf9Rq5TAEpLYGmTj9s',
+  KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRqenR3eXRscmZxbnZnbXFrcGJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzMzQ4NTcsImV4cCI6MjEwODkxMDg1N30.yFQKqoYq_RdRlZwVaSFwjOO8AncSCBLIY2NKCahY2DM',
 
   /** Daftar menu yang bisa dipilih penitip. Menu yang mengandung kata "mie" otomatis punya level pedas. */
-  MENU: ['Mie Gacoan', 'Udang Keju', 'Thai Tea Iced'],
+  MENU: ['Mie Gacoan', 'Mie Hompipa', 'Udang Keju', 'Thai Tea Iced',],
 
   /**
    * Email akun developer (pemilik aplikasi). Title "Developer" terpasang OTOMATIS untuk akun ini

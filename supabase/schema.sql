@@ -374,3 +374,13 @@ select u.id, lower(u.email),
        coalesce(nullif(u.raw_user_meta_data->>'nama', ''), split_part(u.email, '@', 1)), 'disetujui'
 from auth.users u
 where not exists (select 1 from permintaan_jastip r where r.user_id = u.id);
+
+
+-- =====================================================================
+-- 9. HAK AKSES DATA API (wajib di proyek Supabase baru)
+-- =====================================================================
+grant select, insert, update         on public.profiles to authenticated;
+grant select, insert, update, delete on public.sesi     to authenticated;
+grant select, insert, update, delete on public.pesanan  to authenticated;
+-- allowed_jastip & permintaan_jastip sengaja TANPA hak: hanya lewat fungsi.
+grant execute on function public.kode_settled(text) to anon, authenticated;
