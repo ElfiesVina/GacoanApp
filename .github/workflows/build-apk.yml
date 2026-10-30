@@ -2,11 +2,11 @@ name: Build Android APK
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
     paths:
       - "android/**"
       - ".github/workflows/build-apk.yml"
-    tags: [ "v*" ]
+    tags: ["v*"]
   workflow_dispatch:
 
 permissions:
@@ -17,30 +17,59 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: gradle
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: temurin
+          cache: gradle
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x android/gradlew
+      - name: Grant execute permission for gradlew
+        run: chmod +x android/gradlew
 
-    - name: Build Debug APK
-      run: |
-        cd android
-        ./gradlew assembleDebug --stacktrace
+      - name: Prepare release keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          test -n "$KEYSTORE_BASE64" || {
+            echo "KEYSTORE_BASE64 belum diatur."
+            exit 1
+          }
+          echo "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.jks"
+          test -s "$RUNNER_TEMP/release.jks"
 
-    - name: Rename APK
-      run: mv android/app/build/outputs/apk/debug/app-debug.apk android/app/build/outputs/apk/debug/TitipGacoan.apk
+      - name: Build Release APK
+        env:
+          KEYSTORE_PATH: ${{ runner.temp }}/release.jks
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          test -n "$KEYSTORE_PASSWORD"
+          test -n "$KEY_ALIAS"
+          test -n "$KEY_PASSWORD"
+          cd android
+          ./gradlew assembleRelease --stacktrace
 
-    - name: Upload APK Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: TitipGacoan-APK
-        path: android/app/build/outputs/apk/debug/TitipGacoan.apk
-        retention-days: 30
+      - name: Rename APK
+        run: |
+          mv android/app/build/outputs/apk/release/app-release.apk \
+             android/app/build/outputs/apk/release/TitipGacoan.apk
+
+      - name: Verify APK signature
+        run: |
+          APKSIGNER=$(find "$ANDROID_HOME/build-tools" -name apksigner \
+            -type f | sort -V | tail -1)
+          test -n "$APKSIGNER"
+          "$APKSIGNER" verify --print-certs \
+            android/app/build/outputs/apk/release/TitipGacoan.apk
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TitipGacoan-APK
+          path: android/app/build/outputs/apk/release/TitipGacoan.apk
+          retention-days: 30
