@@ -62,17 +62,32 @@ try { if (sessionStorage.getItem('pane') === 'jastip') pane = 'jastip'; } catch 
  * Kalau gagal (misalnya offline), pakai daftar lokal yang lama.
  */
 async function muatSesiAktif() {
-  const r = await listSesiAktif();
   const slot = $('#rc-slot');
-  if (!slot) return; // layar sudah berganti sebelum data datang
-  const daftar = r.error || !Array.isArray(r.data)
-    ? getRecent()
-    : r.data
-      .filter((x) => /^\w+$/.test(x.kode || ''))
-      .map((x) => {
-        const jd = x.judul || x.kode;
-        return { k: x.kode, j: x.nama ? jd + ' · ' + x.nama : jd };
-      });
+  if (!slot) return;
+
+  let daftar;
+
+  try {
+    const r = await listSesiAktif();
+
+    daftar = r.error || !Array.isArray(r.data)
+      ? getRecent()
+      : r.data
+          .filter((x) => /^\w+$/.test(x.kode || ''))
+          .map((x) => {
+            const judul = x.judul || x.kode;
+            return {
+              k: x.kode,
+              j: x.nama ? judul + ' · ' + x.nama : judul
+            };
+          });
+  } catch (err) {
+    daftar = getRecent();
+  }
+
+  // Jangan mengubah layar jika pengguna sudah berpindah.
+  if (!$('#rc-slot')) return;
+
   slot.innerHTML = recentHTML(daftar);
 }
 
