@@ -2,9 +2,13 @@
 
 # Titip Gacoan
 
-**Titip pesanan, kelola sesi, dan pantau pembayaran dalam satu tempat.**
+**Titip pesanan · Kelola sesi · Pantau pembayaran**
 
-[🌐 Buka Aplikasi](https://gacoanapp.vercel.app/) · [📦 Unduh APK](https://github.com/ElfiesVina/GacoanApp/releases/latest) · [🗂️ Semua Rilis](https://github.com/ElfiesVina/GacoanApp/releases)
+<br>
+
+[![Web](https://img.shields.io/badge/Web-gacoanapp.vercel.app-000?style=flat-square&logo=vercel&logoColor=white)](https://gacoanapp.vercel.app/)
+[![APK](https://img.shields.io/badge/APK-v0.3.0-3DDC84?style=flat-square&logo=android&logoColor=white)](https://github.com/ElfiesVina/GacoanApp/releases/tag/v0.3.0)
+[![Releases](https://img.shields.io/badge/Releases-GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/ElfiesVina/GacoanApp/releases)
 
 </div>
 
@@ -12,29 +16,35 @@
 
 ## Unduh
 
-| Platform | Unduhan |
-| --- | --- |
-| Android | [**APK terbaru**](https://github.com/ElfiesVina/GacoanApp/releases/latest) |
-| Perangkat lain | [Buka versi web](https://gacoanapp.vercel.app/) — bisa dibuka melalui browser |
+| | |
+|---|---|
+| **Android** | [APK v0.3.0](https://github.com/ElfiesVina/GacoanApp/releases/tag/v0.3.0) |
+| **Lainnya** | [Buka di browser](https://gacoanapp.vercel.app/) |
 
-> Untuk Android, unduh APK dari halaman **Releases**. Jika belum ada rilis, buat rilis pertama dengan tag seperti `v1.1.0`; GitHub Actions akan membangun APK dan melampirkannya otomatis.
+> Unduh APK dari halaman **Releases**. Jika belum ada rilis, buat tag `v0.3.0` — GitHub Actions akan membangun dan melampirkan APK otomatis.
+
+---
 
 ## Tentang
 
-Titip Gacoan adalah aplikasi web untuk titip pesanan Gacoan, dengan data tersimpan di Supabase. Versi Android menggunakan WebView untuk membuka aplikasi web.
+Aplikasi untuk titip pesanan Gacoan. Data tersimpan di Supabase. Versi Android memakai WebView.
 
-- **Web:** HTML, CSS, dan JavaScript modular
-- **Database & autentikasi:** Supabase
-- **Hosting:** Vercel
-- **APK Android:** GitHub Actions
+| | |
+|---|---|
+| Web | HTML · CSS · JavaScript |
+| Backend | Supabase |
+| Hosting | Vercel |
+| Android | WebView + GitHub Actions |
 
-## Pembaruan aplikasi
+---
 
-Perubahan pada aplikasi web yang sudah dipublikasikan di Vercel biasanya langsung terlihat di APK karena APK memuat versi web tersebut. APK baru diperlukan jika ada perubahan pada cangkang Android, ikon, izin, atau konfigurasi aplikasi.
+## Catatan
 
-## Keamanan instalasi Android
+**Pembaruan**  
+Perubahan di web (Vercel) langsung terlihat di APK. APK baru hanya diperlukan jika ada perubahan pada cangkang Android, ikon, izin, atau konfigurasi.
 
-Android atau Google Play Protect mungkin menampilkan peringatan pada APK yang diunduh di luar Play Store. Peringatan itu tidak bisa dihilangkan hanya dengan mengubah README atau nama APK. Gunakan APK yang ditandatangani dengan kunci rilis yang konsisten, bagikan melalui rilis resmi, dan pertimbangkan distribusi melalui Google Play jika ingin pengalaman instalasi yang lebih tepercaya. Jangan menonaktifkan perlindungan perangkat demi melewati peringatan.
+**Keamanan instalasi**  
+Android / Play Protect bisa menampilkan peringatan untuk APK di luar Play Store. Ini normal. Gunakan APK dari rilis resmi yang ditandatangani dengan kunci konsisten. Jangan nonaktifkan proteksi perangkat.
 
 ---
 
