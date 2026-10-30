@@ -144,11 +144,15 @@ class MainActivity : ComponentActivity() {
         super.onDestroy()
     }
 
-    /** Link https://titipgacoan.vercel.app/#/s/KODE dibuka di dalam aplikasi. */
+    /** Link sesi pada domain aplikasi dibuka di dalam aplikasi. */
     private fun startUrlFrom(intent: Intent?): String {
         val uri = intent?.data
         val fragment = uri?.fragment
-        return if (uri?.host == BASE_HOST && !fragment.isNullOrBlank()) "$BASE_URL#$fragment" else BASE_URL
+        return if (uri?.host == BASE_HOST && !fragment.isNullOrBlank()) {
+            "$BASE_URL#$fragment"
+        } else {
+            BASE_URL
+        }
     }
 
     /** Tombol Back: tutup dialog web dulu, lalu mundur di riwayat, terakhir keluar dari aplikasi. */
